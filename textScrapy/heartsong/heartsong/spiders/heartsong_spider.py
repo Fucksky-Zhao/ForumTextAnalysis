@@ -11,6 +11,7 @@ class HeartsongSpider(Spider):
     name = "heartsong"
     allowed_domains = ["51credit.com"]  # 允许爬取的域名，非此域名的网页不会爬取
     start_urls = []
+
     for line in open("data_spdb.txt", "r"):  # 设置文件对象并读取每一行文件
         # if len(start_urls) > 50:
         #     break
@@ -21,7 +22,7 @@ class HeartsongSpider(Spider):
     #                "https://bbs.51credit.com/thread-4276521-1-1.html"]
 
     # start_urls = [
-    #     "https://bbs.51credit.com/thread-5603226-1-1.html"
+    #     "https://bbs.51credit.com/thread-6008847-1-1.html"
     #     # 起始url，此例只爬这一个页面
     # ]
     cookie = settings['COOKIE']  # 带着Cookie向网页发请求
@@ -65,6 +66,12 @@ class HeartsongSpider(Spider):
             item['post_time'] = \
                 each.xpath('tr[1]/td[@class="plc"]/div[@class="pi"]').re(r'[0-9]+-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+')[
                     0]
+            item['user_level'] = each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/p[1]/em/a/text()').extract()[0]
+            item['user_exp'] = each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/dl[@class="pil cl"]/dd[1]/a/text()').extract()[0]
+            item['user_thread'] = each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/dl[@class="pil cl"]/dd[2]/a/text()').extract()[0]
+            item['user_comment'] = each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/dl[@class="pil cl"]/dd[3]/a/text()').extract()[0]
+            item['user_currency'] = each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/dl[@class="pil cl"]/dd[4]/text()').extract()[0]
+            item['user_register_time'] = each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/dl[@class="pil cl"]/dd[5]/text()').extract()[0]
             # content_quote = each.xpath('.//')
             content_list = each.xpath('.//td[@class="t_f"]/text()').extract()
             print(len(content_list))
@@ -109,6 +116,21 @@ class HeartsongSpider(Spider):
                 0]
             item['post_time'] = \
             each.xpath('tr[1]/td[@class="plc"]/div[@class="pi"]').re(r'[0-9]+-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+')[0]
+            item['user_level'] = \
+            each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/p[1]/em/a/text()').extract()[0]
+            item['user_exp'] = \
+            each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/dl[@class="pil cl"]/dd[1]/a/text()').extract()[
+                0]
+            item['user_thread'] = \
+            each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/dl[@class="pil cl"]/dd[2]/a/text()').extract()[
+                0]
+            item['user_comment'] = \
+            each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/dl[@class="pil cl"]/dd[3]/a/text()').extract()[
+                0]
+            item['user_currency'] = \
+            each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/dl[@class="pil cl"]/dd[4]/text()').extract()[0]
+            item['user_register_time'] = \
+            each.xpath('tr[1]/td[@class="pls"]/div[@class="pls favatar"]/dl[@class="pil cl"]/dd[5]/text()').extract()[0]
             content_list = each.xpath('.//td[@class="t_f"]/text()').extract()
             print(len(content_list))
             content = "".join(content_list)  # 将list转化为string

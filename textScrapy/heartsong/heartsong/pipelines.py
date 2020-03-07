@@ -22,7 +22,7 @@ class HeartsongPipeline(object):
     #     return item  # 会在控制台输出原item数据，可以选择不写
 
     def process_item(self, item, spider):
-        f = open('item_spdb.csv', 'a+', newline="", encoding='utf-8')
+        f = open('item_2020_cmb_test.csv', 'a+', newline="", encoding='utf-8')
         writer = csv.writer(f)
         # item = str(item).encode('utf-8')
         if item['author']:
@@ -30,6 +30,12 @@ class HeartsongPipeline(object):
                              item['content'],
                              item['post_time'],
                              item['title'],
-                             item['url']])
+                             item['url'],
+                             item['user_level'],
+                             item['user_exp'],
+                             item['user_thread'],
+                             item['user_comment'],
+                             item['user_currency'],
+                             item['user_register_time']])
         return item
 
